@@ -3,7 +3,7 @@ import { useState } from 'react'
 function App() {
   const [txt, setTxt] = useState("Enter text");
 /** 
- * ONLY GETS TEXT
+ * DO NOT DO (ONLY GETS TEXT)
   const getText = async () => {
     const response = await fetch("http://localhost:8000/HillCipher");
 
@@ -16,7 +16,7 @@ function App() {
     setTxt(data);
   }
 
-  * ONLY SENDS TEXT
+  * DO NOT DO (ONLY SENDS TEXT)
   const sendText = async () => fetch("http://localhost:8000/HillCipher",{
     method: "POST",
     headers: {"Content-Type": "application/json"},
@@ -41,7 +41,7 @@ function App() {
     if(!res.ok){
       const errText = await res.text();
       console.log("STATUS:", res.status);
-      console.log("ERROR BODY:", errText);
+      console.log("ERROR BODY:", errText); // Error text for debugging
       throw new Error("Server error");
     }
 
@@ -55,10 +55,29 @@ function App() {
   }
 
   return (
+    /**
     <div className = "App">
       <input onChange = {change}
       value = {txt}/>
       <button onClick = {click}>Enter</button>
+    </div>
+    */
+    <div>
+      <TextBox
+        value = {txt}
+        onChange = {change}
+        onClick = {click}
+      />
+    </div>
+  )
+}
+
+function TextBox({value, onChange, onClick}){
+  return(
+    <div className = "TextBox">
+      <input onChange = {onChange}
+      value = {value}/>
+      <button onClick = {onClick}>Enter</button>
     </div>
   )
 }
