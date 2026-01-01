@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 function App() {
-  const [txt, setTxt] = useState("Enter text");
+  const [txt, setTxt] = useState("Enter text (No spaces)");
 /** 
  * DO NOT DO (ONLY GETS TEXT)
   const getText = async () => {
@@ -55,29 +55,32 @@ function App() {
   }
 
   return (
-    /**
-    <div className = "App">
-      <input onChange = {change}
-      value = {txt}/>
-      <button onClick = {click}>Enter</button>
-    </div>
-    */
     <div>
       <TextBox
         value = {txt}
         onChange = {change}
+      />
+      <Button
+        label = "Encrypt"
         onClick = {click}
       />
     </div>
   )
 }
 
-function TextBox({value, onChange, onClick}){
+function TextBox({value, onChange}){
   return(
     <div className = "TextBox">
       <input onChange = {onChange}
       value = {value}/>
-      <button onClick = {onClick}>Enter</button>
+    </div>
+  )
+}
+
+function Button({label, onClick}){
+  return(
+    <div className = "Button">
+      <button onClick = {onClick}>{label}</button>
     </div>
   )
 }
