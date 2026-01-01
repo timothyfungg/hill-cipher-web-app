@@ -24,7 +24,7 @@ function App() {
   });
 */
 
-  const click = async () => {
+  const click = (path) => async () => {
     /**
      * Sends text then gets text simultaneously, does not work
     sendText()
@@ -32,7 +32,7 @@ function App() {
     alert(txt)
     */
    // Send text
-    const res = await fetch("http://localhost:8000/HillCipher/encrypt", {
+    const res = await fetch(path, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({content: txt})
@@ -62,7 +62,7 @@ function App() {
       />
       <Button
         label = "Encrypt"
-        onClick = {click}
+        onClick = {click("http://localhost:8000/HillCipher/encrypt")}
       />
     </div>
   )
