@@ -107,9 +107,3 @@ class HillCipher:
 
     def decrypt(self, text):
         return self.transform(text, self.invertedKey)
-    
-c = HillCipher([[3, 5], [2, 7]])
-enc = HillCipher.pairsToString(c.encrypt("what the fuck"))
-print(enc)
-dec = HillCipher.pairsToString(c.decrypt(enc))
-print(dec)

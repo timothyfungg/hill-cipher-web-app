@@ -44,13 +44,11 @@ async def createCipher(key : Key):
 """
 @app.post("/HillCipher/encrypt")
 def encrypt(text : Text):
-    encrypted = HillCipher.pairsToString(cipher.encrypt(text.content))
-    return {"content": encrypted}
-"""
-@app.post("/HillCipher")
-async def decrypt(text : str):
-    return HillCipher.pairsToString(cipher.decrypt(text))
-"""
+    return {"content": HillCipher.pairsToString(cipher.encrypt(text.content))}
+
+@app.post("/HillCipher/decrypt")
+def decrypt(text : Text):
+    return {"content": HillCipher.pairsToString(cipher.decrypt(text.content))}
 
 if __name__ == "__main__":
     uvicorn.run(app, host = "0.0.0.0", port = 8000)

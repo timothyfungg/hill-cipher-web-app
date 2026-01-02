@@ -64,6 +64,10 @@ function App() {
         label = "Encrypt"
         onClick = {click("http://localhost:8000/HillCipher/encrypt")}
       />
+      <Button
+        label = "Decrypt"
+        onClick = {click("http://localhost:8000/HillCipher/decrypt")}
+      />
     </div>
   )
 }
