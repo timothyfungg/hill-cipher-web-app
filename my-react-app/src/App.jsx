@@ -35,6 +35,7 @@ function App() {
     alert(txt)
     */
    // Send text
+   try{
     const res = await fetch(path, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -49,11 +50,14 @@ function App() {
       throw new Error("Server error");
     }
 
-    if(res.status != 200){
+    if(res.status != 204){
       // Get text
       const data = await res.json(); // {content: text}
       setVari(data.content); // Get the text in 'content'
     }
+   }catch{
+      setVari("Invalid input")
+   }
   }
 
   const change = (setVari) => (event) => {
