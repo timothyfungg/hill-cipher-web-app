@@ -2,6 +2,8 @@ import { useState } from 'react'
 
 function App() {
   const [txt, setTxt] = useState("Enter text (No spaces)");
+  const [key, setKey] = useState("Enter key");
+
 /** 
  * DO NOT DO (ONLY GETS TEXT)
   const getText = async () => {
@@ -24,7 +26,8 @@ function App() {
   });
 */
 
-  const click = (path) => async () => {
+  // Higher order function to work with button
+  const click = (path, vari, setVari) => async () => {
     /**
      * Sends text then gets text simultaneously, does not work
     sendText()
@@ -35,9 +38,10 @@ function App() {
     const res = await fetch(path, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({content: txt})
+      body: JSON.stringify({content: vari})
     });
 
+    // Check for error
     if(!res.ok){
       const errText = await res.text();
       console.log("STATUS:", res.status);
@@ -45,28 +49,38 @@ function App() {
       throw new Error("Server error");
     }
 
-    // Get text
-    const data = await res.json(); // {content: text}
-    setTxt(data.content); // Get the text in 'content'
+    if(res.status != 200){
+      // Get text
+      const data = await res.json(); // {content: text}
+      setVari(data.content); // Get the text in 'content'
+    }
   }
 
-  const change = event => {
-    setTxt(event.target.value);
+  const change = (setVari) => (event) => {
+    setVari(event.target.value);
   }
 
   return (
     <div>
       <TextBox
         value = {txt}
-        onChange = {change}
+        onChange = {change(setTxt)}
       />
       <Button
         label = "Encrypt"
-        onClick = {click("http://localhost:8000/HillCipher/encrypt")}
+        onClick = {click("http://localhost:8000/HillCipher/encrypt", txt, setTxt)}
       />
       <Button
         label = "Decrypt"
-        onClick = {click("http://localhost:8000/HillCipher/decrypt")}
+        onClick = {click("http://localhost:8000/HillCipher/decrypt", txt, setTxt)}
+      />
+      <TextBox
+        value = {key}
+        onChange = {change(setKey)}
+      />
+      <Button
+        label = "Enter"
+        onClick = {click("http://localhost:8000/HillCipher/createKey", key, setKey)}
       />
     </div>
   )

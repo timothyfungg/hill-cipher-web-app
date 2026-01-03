@@ -15,6 +15,17 @@ origins = [
 class Key(BaseModel):
     content : list[list[int]]
 
+    @field_validator('content')
+    @classmethod
+    def checkDimensions(cls, content):
+        if(len(content) == 2):
+            for i in range(0, 2):
+                if(len(content) != 2):
+                    raise ValueError("Invalid matrix size (Must have 2 columns)")
+        else:
+            raise ValueError("Invalid matrix size (Must have 2 rows)")
+        return content
+
 class Text(BaseModel):
     content: str
 
@@ -26,22 +37,14 @@ app.add_middleware(
     allow_headers = ["*"],
     )
 
-"""
-@field_validator('content')
-@classmethod
-def checkDimensions(cls, content):
-    if(len(content) == 2):
-        for i in range(0, 2):
-            if(len(content) != 2):
-                raise Exception("Invalid matrix size (Must have 2 columns)")
-    else:
-        raise Exception("Invalid matrix size (Must have 2 rows)")
-    return content
+@app.post("/HillCipher/createKey")
+def createKey(key : Key):
+    try:
+        cipher = HillCipher(key)
+    except Exception as e:
+        return {"content": "Invalid key"}
+    return None
 
-@app.post("/hillcipher")
-async def createCipher(key : Key):
-    cipher = HillCipher(key)
-"""
 @app.post("/HillCipher/encrypt")
 def encrypt(text : Text):
     return {"content": HillCipher.pairsToString(cipher.encrypt(text.content))}
