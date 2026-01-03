@@ -2,7 +2,10 @@ import { useState } from 'react'
 
 function App() {
   const [txt, setTxt] = useState("Enter text (No spaces)");
-  const [key, setKey] = useState("Enter key");
+  const [key, setKey] = useState([
+    [0, 0],
+    [0, 0]
+  ]);
 
 /** 
  * DO NOT DO (ONLY GETS TEXT)
@@ -34,8 +37,7 @@ function App() {
     getText()
     alert(txt)
     */
-   // Send text
-   try{
+    // Send text
     const res = await fetch(path, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -55,13 +57,24 @@ function App() {
       const data = await res.json(); // {content: text}
       setVari(data.content); // Get the text in 'content'
     }
-   }catch{
-      setVari("Invalid input")
-   }
   }
 
   const change = (setVari) => (event) => {
     setVari(event.target.value);
+  }
+
+  const changeCell = (row, col) => (event) => {
+    const value = Number(event.target.value);
+    setKey(prev => setMatrixElement(prev, row, col, value));
+  }
+
+  const clickCell = (path) => async () =>{
+    // Send key
+    const res = await fetch(path, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({content: key})
+    })
   }
 
   return (
@@ -79,15 +92,33 @@ function App() {
         onClick = {click("http://localhost:8000/HillCipher/decrypt", txt, setTxt)}
       />
       <TextBox
-        value = {key}
-        onChange = {change(setKey)}
+        value = {key[0][0]}
+        onChange = {changeCell(0, 0)}
+      />
+      <TextBox
+        value = {key[0][1]}
+        onChange = {changeCell(0, 1)}
+      />
+      <TextBox
+        value = {key[1][0]}
+        onChange = {changeCell(1, 0)}
+      />
+      <TextBox
+        value = {key[1][1]}
+        onChange = {changeCell(1, 1)}
       />
       <Button
-        label = "Enter"
-        onClick = {click("http://localhost:8000/HillCipher/createKey", key, setKey)}
+        label = "Enter matrix"
+        onClick = {clickCell("http://localhost:8000/HillCipher/createKey")}
       />
     </div>
   )
+}
+
+function setMatrixElement(mat, row, col, value){
+  const copy = mat.map(rowArr => [...rowArr]);
+  copy[row][col] = value;
+  return copy;
 }
 
 function TextBox({value, onChange}){

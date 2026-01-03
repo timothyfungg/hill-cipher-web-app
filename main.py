@@ -40,7 +40,8 @@ app.add_middleware(
 @app.post("/HillCipher/createKey")
 def createKey(key : Key):
     try:
-        cipher = HillCipher(key)
+        # Key class variables must be referenced like a dictionary (actual list is behind content)
+        cipher.setKey(key.content)
     except Exception as e:
         return {"content": "Invalid key"}
     return None

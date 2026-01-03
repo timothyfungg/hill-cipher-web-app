@@ -3,6 +3,10 @@ class HillCipher:
         self.key = key
         self.invertedKey = self.invertKey()
     
+    def setKey(self, key):
+        self.key = key
+        self.invertedKey = self.invertKey()
+    
     @classmethod
     def charToInt(cls, char):
         return (ord(char.capitalize()) - 65)
