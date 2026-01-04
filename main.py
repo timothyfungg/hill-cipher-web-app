@@ -46,6 +46,10 @@ def createKey(key : Key):
         return {"content": "Invalid key"}
     return None
 
+@app.get("/HillCipher/getKey")
+def getKey():
+    return {"content": cipher.__str__()}
+
 @app.post("/HillCipher/encrypt")
 def encrypt(text : Text):
     return {"content": HillCipher.pairsToString(cipher.encrypt(text.content))}
