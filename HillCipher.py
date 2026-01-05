@@ -79,7 +79,7 @@ class HillCipher:
             25: 25
         }
         try:
-            detMod26Inverse = mod26[det]
+            detMod26Inverse = mod26[det % 26]
         except KeyError:
             raise Exception("Invalid key (no inverse)")
         
@@ -111,3 +111,14 @@ class HillCipher:
 
     def decrypt(self, text):
         return self.transform(text, self.invertedKey)
+
+c = HillCipher([[3, 5], [2, 7]])
+enc = c.encrypt("HELLO")
+print(HillCipher.pairsToString(enc))
+dec = c.decrypt(HillCipher.pairsToString(enc))
+print(HillCipher.pairsToString(dec))
+c.setKey([[1, 2], [3, 5]])
+enc = c.encrypt("HELLO")
+print(HillCipher.pairsToString(enc))
+dec = c.decrypt(HillCipher.pairsToString(enc))
+print(HillCipher.pairsToString(dec))
