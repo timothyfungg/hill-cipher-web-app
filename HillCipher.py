@@ -3,6 +3,8 @@ class HillCipher:
         self.key = key
         self.invertedKey = self.invertKey()
     
+    # must check if possible to invert before changing key
+    # must prevent frontend from just changing the key
     def setKey(self, key):
         self.key = key
         self.invertedKey = self.invertKey()
