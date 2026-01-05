@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function App() {
   const [txt, setTxt] = useState("Enter text (No spaces)");
@@ -30,7 +30,7 @@ function App() {
 */
 
   // Higher order function to work with button
-  const click = (path, vari, setVari) => async () => {
+  const click = (path) => async () => {
     /**
      * Sends text then gets text simultaneously, does not work
     sendText()
@@ -41,7 +41,7 @@ function App() {
     const res = await fetch(path, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({content: vari})
+      body: JSON.stringify({content: txt})
     });
 
     // Check for error
@@ -55,12 +55,12 @@ function App() {
     if(res.status != 204){
       // Get text
       const data = await res.json(); // {content: text}
-      setVari(data.content); // Get the text in 'content'
+      setTxt(data.content); // Get the text in 'content'
     }
   }
 
-  const change = (setVari) => (event) => {
-    setVari(event.target.value);
+  const change = (event) => {
+    setTxt(event.target.value);
   }
 
   const changeCell = (row, col) => (event) => {
@@ -81,15 +81,15 @@ function App() {
     <div>
       <TextBox
         value = {txt}
-        onChange = {change(setTxt)}
+        onChange = {change}
       />
       <Button
         label = "Encrypt"
-        onClick = {click("http://localhost:8000/HillCipher/encrypt", txt, setTxt)}
+        onClick = {click("http://localhost:8000/HillCipher/encrypt")}
       />
       <Button
         label = "Decrypt"
-        onClick = {click("http://localhost:8000/HillCipher/decrypt", txt, setTxt)}
+        onClick = {click("http://localhost:8000/HillCipher/decrypt")}
       />
       <TextBox
         value = {key[0][0]}
