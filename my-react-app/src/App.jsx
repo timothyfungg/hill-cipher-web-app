@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 function App() {
   const [txt, setTxt] = useState("Enter text (No spaces)");
   const [key, setKey] = useState([
-    [3, 5],
-    [2, 7]
+    [0, 0],
+    [0, 0]
   ]);
-  const [keyStr, setKeyStr] = useState("[3, 5]\n[2, 7]");
 
 /** 
  * DO NOT DO (ONLY GETS TEXT)
@@ -29,18 +28,9 @@ function App() {
     body: JSON.stringify({content: txt})
   });
 */
-  // useEffect(() => {
-  //   logic 1
-  // }, [])
-
-  // useEffect(() => {
-  //   assign all the other CustomStateSet.apply.
-  // }, [pressed])
-
-  // <button onClick={() => setPressed(true)}>
 
   // Higher order function to work with button
-  const click = (path) => async () => {
+  const click = (path, vari, setVari) => async () => {
     /**
      * Sends text then gets text simultaneously, does not work
     sendText()
@@ -51,7 +41,7 @@ function App() {
     const res = await fetch(path, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({content: txt})
+      body: JSON.stringify({content: vari})
     });
 
     // Check for error
@@ -65,15 +55,15 @@ function App() {
     if(res.status != 204){
       // Get text
       const data = await res.json(); // {content: text}
-      setTxt(data.content); // Get the text in 'content'
+      setVari(data.content); // Get the text in 'content'
     }
   }
 
-  const change = (e) => {
-    setTxt(e.target.value);
+  const change = (setVari) => (event) => {
+    setVari(event.target.value);
   }
 
-  const changeKey = (row, col) => (event) => {
+  const changeCell = (row, col) => (event) => {
     const value = Number(event.target.value);
     setKey(prev => setMatrixElement(prev, row, col, value));
   }
@@ -87,45 +77,35 @@ function App() {
     })
   }
 
-  const changeTitle = (path) => async () =>{
-    const res = await fetch(path);
-    data = res.json();
-    setKeyStr(data.content);
-  }
-
   return (
     <div>
-      <Text
-        text = {keyStr}
-        onChange = {changeTitle("http://localhost:8000/HillCipher/getKey")}
-      />
       <TextBox
         value = {txt}
-        onChange = {(e) => setTxt(e.target.value)}
+        onChange = {change(setTxt)}
       />
       <Button
         label = "Encrypt"
-        onClick = {click("http://localhost:8000/HillCipher/encrypt")}
+        onClick = {click("http://localhost:8000/HillCipher/encrypt", txt, setTxt)}
       />
       <Button
         label = "Decrypt"
-        onClick = {click("http://localhost:8000/HillCipher/decrypt")}
+        onClick = {click("http://localhost:8000/HillCipher/decrypt", txt, setTxt)}
       />
       <TextBox
         value = {key[0][0]}
-        onChange = {changeKey(0, 0)}
+        onChange = {changeCell(0, 0)}
       />
       <TextBox
         value = {key[0][1]}
-        onChange = {changeKey(0, 1)}
+        onChange = {changeCell(0, 1)}
       />
       <TextBox
         value = {key[1][0]}
-        onChange = {changeKey(1, 0)}
+        onChange = {changeCell(1, 0)}
       />
       <TextBox
         value = {key[1][1]}
-        onChange = {changeKey(1, 1)}
+        onChange = {changeCell(1, 1)}
       />
       <Button
         label = "Enter matrix"
@@ -156,15 +136,6 @@ function Button({label, onClick}){
       <button onClick = {onClick}>{label}</button>
     </div>
   )
-}
-
-function Text({text, onChange}){
-  return(
-    <div>
-      <input value = {text}
-      onChange = {onChange}/>
-    </div>
-    )
 }
 
 export default App

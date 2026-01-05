@@ -6,9 +6,6 @@ class HillCipher:
     def setKey(self, key):
         self.key = key
         self.invertedKey = self.invertKey()
-
-    def __str__(self):
-        return f"{self.key[0]},\n{self.key[1]}"
     
     @classmethod
     def charToInt(cls, char):
