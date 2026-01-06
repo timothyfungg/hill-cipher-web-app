@@ -74,7 +74,11 @@ function App() {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({content: key})
-    })
+    });
+    if(!res.ok){
+      const data = await res.json()
+      // tell user invalid key
+    }
   }
 
   return (

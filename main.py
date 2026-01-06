@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, field_validator
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
@@ -43,7 +43,8 @@ def createKey(key : Key):
         # Key class variables must be referenced like a dictionary (actual list is behind content)
         cipher.setKey(key.content)
     except Exception as e:
-        return {"content": "Invalid key"}
+        #return {"content": "Invalid key"}
+        raise HTTPException(status_code = 422, detail = "Invalid Key")
     return None
 
 @app.post("/HillCipher/encrypt")

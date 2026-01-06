@@ -3,11 +3,17 @@ class HillCipher:
         self.key = key
         self.invertedKey = self.invertKey()
     
-    # must check if possible to invert before changing key
-    # must prevent frontend from just changing the key
     def setKey(self, key):
-        self.key = key
-        self.invertedKey = self.invertKey()
+        print(self.key)
+        print(self.invertedKey)
+        old = self.key
+        try:
+            self.key = key
+            self.invertedKey = self.invertKey()
+        # Roll back changes
+        except Exception:
+            self.key = old
+            raise # Raise caught exception
     
     @classmethod
     def charToInt(cls, char):
