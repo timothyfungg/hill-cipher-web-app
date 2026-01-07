@@ -64,7 +64,7 @@ function App() {
   }
 
   const changeCell = (row, col) => (event) => {
-    const value = Number(event.target.value);
+    const value = parseInt(event.target.value) || 0; // Set value as int if input is an int, otherwise leave at 0
     setKey(prev => setMatrixElement(prev, row, col, value));
   }
 
@@ -138,6 +138,14 @@ function Button({label, onClick}){
   return(
     <div className = "Button">
       <button onClick = {onClick}>{label}</button>
+    </div>
+  )
+}
+
+function Text({label}){
+  return(
+    <div>
+      <h1>{label}</h1>
     </div>
   )
 }
