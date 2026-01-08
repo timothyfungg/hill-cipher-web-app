@@ -55,5 +55,9 @@ def encrypt(text : Text):
 def decrypt(text : Text):
     return {"content": HillCipher.pairsToString(cipher.decrypt(text.content))}
 
+@app.get("/HillCipher/getKey")
+def getKey():
+    return {"content": cipher.__str__()}
+
 if __name__ == "__main__":
     uvicorn.run(app, host = "0.0.0.0", port = 8000)

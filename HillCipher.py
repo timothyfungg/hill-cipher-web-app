@@ -2,6 +2,9 @@ class HillCipher:
     def __init__(self, key): # key in the form of row matrix [[a, b], [c, d]]
         self.key = key
         self.invertedKey = self.invertKey()
+
+    def __str__(self):
+        return f"[[{self.key[0][0]}, {self.key[0][1]}], [{self.key[1][0]}, {self.key[1][1]}]]"
     
     def setKey(self, key):
         print(self.key)
@@ -119,14 +122,3 @@ class HillCipher:
 
     def decrypt(self, text):
         return self.transform(text, self.invertedKey)
-
-c = HillCipher([[3, 5], [2, 7]])
-enc = c.encrypt("HELLO")
-print(HillCipher.pairsToString(enc))
-dec = c.decrypt(HillCipher.pairsToString(enc))
-print(HillCipher.pairsToString(dec))
-c.setKey([[1, 2], [3, 5]])
-enc = c.encrypt("HELLO")
-print(HillCipher.pairsToString(enc))
-dec = c.decrypt(HillCipher.pairsToString(enc))
-print(HillCipher.pairsToString(dec))

@@ -6,6 +6,7 @@ function App() {
     [0, 0],
     [0, 0]
   ]);
+  const keyStr = `[${key[0][0]}, ${key[0][1]}]\n[${key[1][0]}, ${key[1][1]}]`;
 
 /** 
  * DO NOT DO (ONLY GETS TEXT)
@@ -76,13 +77,15 @@ function App() {
       body: JSON.stringify({content: key})
     });
     if(!res.ok){
-      const data = await res.json()
-      // tell user invalid key
+      alert("Invalid key!") // tell user invalid key
     }
   }
 
   return (
     <div>
+      <Text
+        label = {keyStr}
+      />
       <TextBox
         value = {txt}
         onChange = {change}
