@@ -1,12 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, field_validator
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
 import uvicorn
 from HillCipher import HillCipher
 
 app = FastAPI()
-cipher = HillCipher([[3, 5], [2, 7]])
+cipher = HillCipher([[1, 0], [0, 1]])
 
 origins = [
     "http://localhost:5173"
