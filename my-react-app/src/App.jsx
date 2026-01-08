@@ -6,52 +6,16 @@ function App() {
     [0, 0],
     [0, 0]
   ]);
-  const keyStr = `[${key[0][0]}, ${key[0][1]}]\n[${key[1][0]}, ${key[1][1]}]`;
-
-/** 
- * DO NOT DO (ONLY GETS TEXT)
-  const getText = async () => {
-    const response = await fetch("http://localhost:8000/HillCipher");
-
-    if(!response.ok){
-      throw new Error("No server reply")
-    }
-
-    // Get text from json
-    const data = await response.json();
-    setTxt(data);
-  }
-
-  * DO NOT DO (ONLY SENDS TEXT)
-  const sendText = async () => fetch("http://localhost:8000/HillCipher",{
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({content: txt})
-  });
-*/
+  const keyStr = `[${key[0][0]}, ${key[0][1]}]\n[${key[1][0]}, ${key[1][1]}]]`;
 
   // Higher order function to work with button
   const click = (path) => async () => {
-    /**
-     * Sends text then gets text simultaneously, does not work
-    sendText()
-    getText()
-    alert(txt)
-    */
     // Send text
     const res = await fetch(path, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({content: txt})
     });
-
-    // Check for error
-    if(!res.ok){
-      const errText = await res.text();
-      console.log("STATUS:", res.status);
-      console.log("ERROR BODY:", errText); // Error text for debugging
-      throw new Error("Server error");
-    }
 
     if(res.status != 204){
       // Get text
