@@ -7,8 +7,6 @@ class HillCipher:
         return f"[[{self.key[0][0]}, {self.key[0][1]}], [{self.key[1][0]}, {self.key[1][1]}]]"
     
     def setKey(self, key):
-        print(self.key)
-        print(self.invertedKey)
         old = self.key
         try:
             self.key = key

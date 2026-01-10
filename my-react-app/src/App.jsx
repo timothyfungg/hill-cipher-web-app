@@ -45,42 +45,66 @@ function App() {
   }
 
   return (
-    <div>
-      <Text
-        label = {keyStr}
-      />
-      <TextBox
-        value = {txt}
-        onChange = {change}
-      />
-      <Button
-        label = "Encrypt"
-        onClick = {click("http://localhost:8000/HillCipher/encrypt")}
-      />
-      <Button
-        label = "Decrypt"
-        onClick = {click("http://localhost:8000/HillCipher/decrypt")}
-      />
-      <TextBox
-        value = {key[0][0]}
-        onChange = {changeCell(0, 0)}
-      />
-      <TextBox
-        value = {key[0][1]}
-        onChange = {changeCell(0, 1)}
-      />
-      <TextBox
-        value = {key[1][0]}
-        onChange = {changeCell(1, 0)}
-      />
-      <TextBox
-        value = {key[1][1]}
-        onChange = {changeCell(1, 1)}
-      />
-      <Button
-        label = "Enter matrix"
-        onClick = {clickCell("http://localhost:8000/HillCipher/createKey")}
-      />
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 space-y-6">
+        <h1 className="text-2xl font-semibold text-center text-gray-800">
+          Hill 2x2 Cipher
+        </h1>
+
+        <Text
+          label={keyStr}
+        />
+
+        <TextBox
+          value={txt}
+          onChange={change}
+          placeholder="Enter text"
+        />
+
+        <div className="flex gap-4">
+          <Button
+            label="Encrypt"
+            onClick={click("http://localhost:8000/HillCipher/encrypt")}
+            variant="primary"
+          />
+          <Button
+            label="Decrypt"
+            onClick={click("http://localhost:8000/HillCipher/decrypt")}
+            variant="secondary"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-gray-600 text-center">
+            Key Matrix
+          </p>
+      
+          <div className="grid grid-cols gap-2">
+            <TextBox
+              value={key[0][0]}
+              onChange={changeCell(0, 0)}
+            />
+            <TextBox
+              value={key[0][1]}
+              onChange={changeCell(0, 1)}
+            />
+            <TextBox
+              value={key[1][0]}
+              onChange={changeCell(1, 0)}
+            />
+            <TextBox
+              value={key[1][1]}
+              onChange={changeCell(1, 1)}
+            />
+          </div>
+        </div>
+
+        <Button
+          label="Enter matrix"
+          onClick={clickCell("http://localhost:8000/HillCipher/createKey")}
+          varian="success"
+        />
+      </div>
     </div>
   )
 }
@@ -93,29 +117,49 @@ function setMatrixElement(mat, row, col, value){
   return copy;
 }
 
-function TextBox({value, onChange}){
+function TextBox({value, onChange, placeholder}){
   return(
-    <div className = "TextBox">
-      <input onChange = {onChange}
-      value = {value}/>
-    </div>
+    <input
+      className="
+        w-full rounded-lg border border-gray-300 px-3 py-2
+        text-gray-800 placeholder-gray-400
+        focus:outline-none focus:ring-2 focus:ring-blue-500
+        transition
+      "
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+    />
   )
 }
 
-function Button({label, onClick}){
-  return(
-    <div className = "Button">
-      <button onClick = {onClick}>{label}</button>
-    </div>
-  )
+function Button({label, onClick, variant = "primary"}){
+  const styles = {
+    primary: "bg-blue-600 hover:bg-blue-700 text-white",
+    secondary: "bg-gray-600 hover:bg-gray-700 text-white",
+    success: "bg-green-600 hover:bg-green-700 text-white"
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      className={`
+        flex-1 rounded-lg px-4 py-2 font-medium
+        ${styles[variant]}
+        transition active:scale-95
+      `}
+    >
+      {label}
+    </button>
+  );
 }
 
 function Text({label}){
-  return(
-    <div>
-      <h1>{label}</h1>
+  return (
+    <div className="text-center text-gray-700 font-mono bg-gray-50 rounded-md py-2">
+      {label}
     </div>
-  )
+  );
 }
 
 export default App

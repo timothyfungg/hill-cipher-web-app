@@ -1,3 +1,1 @@
-@tailwind base; /*Sets base browser defaults*/
-@tailwind components; /*Allows for creating reusable classes*/
-@tailwind utilities; /*JSX class injections*/
+@import "tailwindcss";
