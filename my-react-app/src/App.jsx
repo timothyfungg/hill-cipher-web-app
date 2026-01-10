@@ -45,8 +45,12 @@ function App() {
   }
 
   return (
+    // Minimum height as screen height, set bg colour, enable flex, center content (vert. + hori.) and add horizontal padding
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+      {/* Card container of md (448px) width with max possible fill, rounded corners, shadow, inner padding and child element spacing */}
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 space-y-6">
+
+        {/* Set font size, weight, centering, colour */}
         <h1 className="text-2xl font-semibold text-center text-gray-800">
           Hill 2x2 Cipher
         </h1>
@@ -61,7 +65,8 @@ function App() {
           placeholder="Enter text"
         />
 
-        <div className="flex gap-4">
+        {/* Enable flex (buttons have flex-1) and spacing between children */}
+        <div className="flex space-x-4">
           <Button
             label="Encrypt"
             onClick={click("http://localhost:8000/HillCipher/encrypt")}
@@ -74,11 +79,13 @@ function App() {
           />
         </div>
 
+        {/* Vertical spacing between children (text and group of text boxes) */}
         <div className="space-y-2">
           <p className="text-sm font-medium text-gray-600 text-center">
             Key Matrix
           </p>
       
+          {/* Arrange children into a single column with spacing */}
           <div className="grid grid-cols gap-2">
             <TextBox
               value={key[0][0]}
@@ -102,7 +109,7 @@ function App() {
         <Button
           label="Enter matrix"
           onClick={clickCell("http://localhost:8000/HillCipher/createKey")}
-          varian="success"
+          variant="success"
         />
       </div>
     </div>
@@ -119,6 +126,7 @@ function setMatrixElement(mat, row, col, value){
 
 function TextBox({value, onChange, placeholder}){
   return(
+    // Text box with max possible fill, rounded corners, border, text padding, and blue ring transition when clicked
     <input
       className="
         w-full rounded-lg border border-gray-300 px-3 py-2
@@ -134,6 +142,7 @@ function TextBox({value, onChange, placeholder}){
 }
 
 function Button({label, onClick, variant = "primary"}){
+  // Different colour buttons
   const styles = {
     primary: "bg-blue-600 hover:bg-blue-700 text-white",
     secondary: "bg-gray-600 hover:bg-gray-700 text-white",
@@ -156,6 +165,7 @@ function Button({label, onClick, variant = "primary"}){
 
 function Text({label}){
   return (
+    // Center text on gray rounded background
     <div className="text-center text-gray-700 font-mono bg-gray-50 rounded-md py-2">
       {label}
     </div>
