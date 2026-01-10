@@ -6,7 +6,7 @@ function App() {
     [1, 0],
     [0, 1]
   ]);
-  const keyStr = `[${key[0][0]}, ${key[0][1]}], [${key[1][0]}, ${key[1][1]}]]`; // Updates every re-render (eg. when setKey() used)
+  const keyStr = `[[${key[0][0]}, ${key[0][1]}], [${key[1][0]}, ${key[1][1]}]]`; // Updates every re-render (eg. when setKey() used)
 
   // Higher order function to work with button
   const click = (path) => async () => {
